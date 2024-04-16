@@ -1,9 +1,10 @@
-import React,{useContext} from "react";
+import React from "react";
 import useFormFields from "../../../utils/useFormFields";
-import AuthContext from "../../../utils/authContext";
+import {useDispatch} from 'react-redux'
+import { login } from "../../../Store/Slices/Auth";
 export default function Login({handlePageType}) {
   const [fields, handleChange] = useFormFields();
-  const {handleToken}=useContext(AuthContext);
+  const dispatch=useDispatch()
   const handleSubmit=async(e)=>{
     e.preventDefault()
     try{
@@ -16,7 +17,7 @@ export default function Login({handlePageType}) {
         })
         let data=await res.json()
             alert('login successfully')
-            handleToken(data.token)
+            dispatch(login(data.token))
         
     }catch(err){
         alert('username or password incorrect')

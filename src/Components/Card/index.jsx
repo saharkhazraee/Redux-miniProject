@@ -10,7 +10,7 @@ export default function Card({img,name,price,id}) {
         <p class="card-text">
          Price : ${price/100}
         </p>
-        <Link to={`/product-details/${id}`} class="btn btn-primary">
+        <Link to={`/product-details/${id}/${name.replaceAll(' ','-')}`} class="btn btn-primary">
           Go somewhere
         </Link>
       </div>

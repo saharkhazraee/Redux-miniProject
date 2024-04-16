@@ -1,8 +1,11 @@
 import React,{useContext} from "react";
 import { Link, useLocation } from "react-router-dom";
-import AuthContext from "../../utils/authContext";
+import {useSelector,useDispatch} from 'react-redux'
+import { logout } from "../../Store/Slices/Auth";
 export default function Navbar() {
-    const {token,handleToken}=useContext(AuthContext)
+   const {token}=useSelector(state=>state.auth)
+   const dispatch=useDispatch()
+   const listLength=useSelector(state=>state.cart.list).length
     const x=useLocation()
   return (
     <nav className="navbar navbar-expand-lg bg-light">
@@ -35,7 +38,7 @@ export default function Navbar() {
               </Link>
             </li>
             {token?<li className="nav-item">
-              <span className="nav-link" onClick={()=>handleToken(null)}>
+              <span className="nav-link" onClick={()=>dispatch(logout())}>
                 Logout
               </span>
             </li> :<li className="nav-item">
@@ -45,6 +48,7 @@ export default function Navbar() {
             </li>}
             
           </ul>
+          <Link to={'/cart'}><span>Cart {listLength!==0&&listLength} </span></Link>
         </div>
       </div>
     </nav>

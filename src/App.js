@@ -9,28 +9,26 @@ import LoginRegister from './Pages/LoginRegister'
 import Products from './Pages/Products'
 import ProductDetails from './Pages/ProductDetails'
 import NotFoundPage from './Pages/NotFound'
-import AuthContext from './utils/authContext'
-import { useState } from 'react'
+import {useSelector} from 'react-redux'
+import Cart from './Pages/Cart'
 export default function App() {
-  const [token,setToken]=useState()
-  const handleToken=(tk)=>{
-    setToken(tk)
-  }
+  const {token}=useSelector(state=>state.auth)
   return (
     <>
-    <AuthContext.Provider value={{token,handleToken}}>
+   
       <Navbar/>
         <main>
           <Routes>
             <Route exact path='/' element={<Home/>}/>
-            <Route  path='/login-register' element={!token?<LoginRegister/>:<Navigate to={'/'}/>}/>
+            <Route  path='/login-register' element={!token?<LoginRegister/>:<Navigate to={'/cart'}/>}/>
             <Route  path='/products' element={<Products/>}/>
-            <Route  path='/product-details/:id' element={token?<ProductDetails/>:<Navigate to={'/login-register'}/>}/>
+            <Route  path='/product-details/:id/:name' element={<ProductDetails/>}/>
+            <Route  path='/cart' element={token?<Cart/>:<Navigate to={'/login-register'}/>}/>
             <Route  path='*' element={<NotFoundPage/>}/>
           </Routes>
         </main>
       <Footer/>
-      </AuthContext.Provider>
+    
     </>
   )
 }
